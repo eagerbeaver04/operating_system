@@ -1,26 +1,28 @@
-#include <string>
-#include <chrono>
+#pragma once
+
+#include <vector>
+#include <unordered_map>
+#include <csignal>
+
+#include "data.hpp"
+
 class Daemon
 {
 public:
-    static Daemon &get_instance(const std::string &folder1,
-    const std::string &folder2,
-    const std::chrono::seconds& time)
+    static Daemon &get_instance(const std::string &config_file)
     {
-        static Daemon instance{folder1, folder2, time};
+        static Daemon instance{config_file};
         return instance;
     };
     void run();
+    void set_data(const std::vector<Data>& data) {table = data;};
+
 private:
-    Daemon(const std::string &folder1,
-           const std::string &folder2,
-           const std::chrono::seconds &time) :
-           folder1(folder1), folder2(folder2),  time(time) {}
+    Daemon(const std::string &config_file) :
+          config_file(config_file), table() {}
 
-    std::string folder1;
-    std::string folder2;
-    std::chrono::seconds time;
-
+    std::string config_file;
+    std::vector<Data> table;
     Daemon() = delete;
     Daemon(const Daemon &) = delete;
     Daemon(Daemon &&) = delete;
