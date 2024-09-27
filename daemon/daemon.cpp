@@ -115,16 +115,13 @@ void Daemon::run(const std::filesystem::path & current_dir, const std::string & 
                 try
                 {
                     replace_folder(table[i]);
-                    std::cout << "data from folder %s to folder %s was replaced successfully!\n"; 
                 }
                 catch(const std::exception& e)
                 {
-                    std::cout << "Folder can not be replaced\n";
                     syslog(LOG_ERR, "Folder can not be replaced: %s", e.what());
                 }
                 time_points[i] = std::chrono::steady_clock::now();
             }
         }
     }
-    std::cout << "daemon_run_after_all\n";
 }
