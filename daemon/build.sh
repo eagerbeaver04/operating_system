@@ -1,22 +1,23 @@
-#!/bin/bash
+#!/bin/sh
 
 if ! command -v cmake &> /dev/null; then
-    echo "cmake не установлен. Установите cmake и повторите попытку."
+    echo "cmake is not installed. Please install cmake and try again."
     exit 1
 fi
 
 mkdir -p build
-cd build || { echo "Не удалось перейти в директорию сборки."; exit 1; }
+
+cd build || { echo "Failed to change to the build directory."; exit 1; }
 
 cmake ..
 if [ $? -ne 0 ]; then
-    echo "Ошибка при выполнении cmake."
+    echo "Error while running cmake."
     exit 1
 fi
 
 make
 if [ $? -ne 0 ]; then
-    echo "Ошибка при выполнении make."
+    echo "Error while running make."
     exit 1
 fi
 
