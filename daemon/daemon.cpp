@@ -39,7 +39,7 @@ void Daemon::replace_folder(const Data & data)
 
     std::string message = "Files moved successfully from " + 
         std::string(cur_path1.c_str()) + " to " + std::string(cur_path2.c_str());
-    syslog(LOG_ERR, "%s", message.c_str());
+    syslog(LOG_INFO, "%s", message.c_str());
 }
 
 void Daemon::reopen_config_file()
@@ -62,7 +62,7 @@ void Daemon::create_pid_file()
         exit(EXIT_FAILURE);
     }
     syslog(LOG_INFO, "PID file %s opened successfully", pid_file.c_str());
-    
+
     char str[10];
     snprintf(str, sizeof(str), "%d\n", getpid());
     write(pid_file_handle, str, strlen(str));
