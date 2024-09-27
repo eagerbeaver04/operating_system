@@ -15,15 +15,17 @@ public:
         return instance;
     };
     void run();
-    void set_data(const std::vector<Data>& data);
+    void set_data(const std::vector<Data>&);
 
 private:
-    Daemon(const std::string &config_file) :
-          config_file(config_file), table(), time_points() {}
-
     std::string config_file;
     std::vector<Data> table;
     std::vector<std::chrono::time_point<std::chrono::steady_clock>> time_points;
+
+    Daemon(const std::string &config_file) : 
+        config_file(config_file), table(), time_points() {}
+
+    void replace_folder(const Data&);
     Daemon() = delete;
     Daemon(const Daemon &) = delete;
     Daemon(Daemon &&) = delete;
