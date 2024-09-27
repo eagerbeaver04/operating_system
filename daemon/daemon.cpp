@@ -15,6 +15,13 @@
 
 #include "daemon.hpp"
 
+void Daemon::set_data(const std::vector<Data> &data) 
+{
+    table = data;
+    for(auto&& time : time_points)
+        time = std::chrono::steady_clock::now();
+}
+
 void Daemon::run()
 {
 }
