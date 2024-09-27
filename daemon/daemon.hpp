@@ -14,10 +14,11 @@ public:
         static Daemon instance;
         return instance;
     };
-    void run(const std::string&);
+    void run(const std::filesystem::path &, const std::string &);
     void reopen_config_file();
 
 private:
+    std::filesystem::path current_path;
     Config config;
     std::vector<Data> table;
     std::vector<std::chrono::time_point<std::chrono::steady_clock>> time_points;
