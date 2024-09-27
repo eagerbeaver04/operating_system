@@ -1,39 +1,12 @@
 #include <cstring>
 #include "config.hpp"
 
-void Config::request_data(std::ofstream& out_file)
-{
-    Data data;
-    std::string time;
-    while (true)
-    {
-        std::cout << "Enter first folder: ";
-        std::getline(std::cin, data.folder1);
-        if (data.folder1.empty())
-            break;
-
-        std::cout << "Enter second folder: ";
-        std::getline(std::cin, data.folder2);
-        if (data.folder2.empty())
-            break; 
-
-        std::cout << "Enter time: ";
-        std::getline(std::cin, time);
-        if (time.empty())
-            break;
-        data.time = std::stoi(time);
-
-        out_file << data.folder1 << " " << data.folder2 << " " << data.time << std::endl;
-    }
-}
-
-
 std::vector<Data> Config::read()
 {
     std::ifstream in_file(path);
     if (!in_file.is_open())
     {
-        std::cerr << "Cannot open file: " << path << std::endl;
+        syslog(LOG_ERR, "File could not be opened! %s", path.c_str());
         throw std::runtime_error("File could not be opened!");
     }
 

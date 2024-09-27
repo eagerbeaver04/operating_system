@@ -5,32 +5,35 @@
 #include <vector>
 #include <filesystem>
 #include <iostream>
+#include <csignal>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <syslog.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <cstring>
+#include <errno.h>
+#include <iostream>
+#include <exception>
 
 #include "data.hpp"
 
 class Config
 {
 private: 
-    std::string path;
-    void request_data(std::ofstream&);
+    std::filesystem::path path;
 
 public:
-    Config(const std::string& path) : path(path)
+    Config(const std::string &filename) 
     {
+        std::filesystem::path cur_path = std::filesystem::current_path();
+        cur_path = cur_path / filename;
+        path = std::filesystem::absolute(cur_path);
         if (!std::filesystem::exists(path))
         {
-            std::ofstream out_file(path);
-            if (out_file.is_open())
-            {
-                std::cout << "File is not found. Create your own config file: " << path << std::endl;
-                request_data(out_file);
-                out_file.close();
-            }
-            else
-            {
-                std::cerr << "Cannot create file: " << path << std::endl;
-                throw std::runtime_error("File could not be created!");
-            }
+            syslog(LOG_ERR, "Config file %s does not exist! ", path.c_str());
+            exit(EXIT_FAILURE);
         }
     }
 

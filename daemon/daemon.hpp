@@ -2,9 +2,8 @@
 
 #include <vector>
 #include <unordered_map>
-#include <csignal>
 #include <chrono>
-#include "data.hpp"
+#include "config.hpp"
 
 class Daemon
 {
@@ -26,6 +25,9 @@ private:
         config_file(config_file), table(), time_points() {}
 
     void replace_folder(const Data&);
+    void create_pid_file();
+    void daemonize();
+
     Daemon() = delete;
     Daemon(const Daemon &) = delete;
     Daemon(Daemon &&) = delete;
