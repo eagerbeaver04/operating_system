@@ -7,7 +7,7 @@ std::vector<Data> Config::read()
     if (!in_file.is_open())
     {
         syslog(LOG_ERR, "File could not be opened! %s", path.c_str());
-        throw std::runtime_error("File could not be opened!");
+        exit(EXIT_FAILURE);
     }
 
     std::string line;
@@ -22,6 +22,6 @@ std::vector<Data> Config::read()
     }
 
     in_file.close();
-
+    syslog(LOG_INFO, "Config file %s was read successfully!", path.c_str());
     return data;
 }

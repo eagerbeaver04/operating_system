@@ -11,8 +11,9 @@ int main(int argc, char *argv[])
     openlog("daemon", LOG_PID | LOG_CONS, LOG_DAEMON);
 
     syslog(LOG_INFO, "Daemon starts");
+    
+    Daemon::get_instance().run(std::string(argv[1]));
 
-    Daemon::get_instance(std::string(argv[1])).run();
-
+    std::cout << "exit..." << std::endl;
     return EXIT_SUCCESS;
 }

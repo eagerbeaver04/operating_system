@@ -25,6 +25,7 @@ private:
     std::filesystem::path path;
 
 public:
+    Config(): path() {}
     Config(const std::string &filename) 
     {
         std::filesystem::path cur_path = std::filesystem::current_path();
@@ -33,7 +34,6 @@ public:
         if (!std::filesystem::exists(path))
         {
             syslog(LOG_ERR, "Config file %s does not exist! ", path.c_str());
-            exit(EXIT_FAILURE);
         }
     }
 

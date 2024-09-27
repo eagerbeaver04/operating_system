@@ -3,32 +3,31 @@
 #include <vector>
 #include <unordered_map>
 #include <chrono>
+#include <functional>
 #include "config.hpp"
 
 class Daemon
 {
 public:
-    static Daemon &get_instance(const std::string &config_file)
+    static Daemon &get_instance()
     {
-        static Daemon instance{config_file};
+        static Daemon instance;
         return instance;
     };
-    void run();
-    void set_data(const std::vector<Data>&);
+    void run(const std::string&);
+    void reopen_config_file();
 
 private:
-    std::string config_file;
+    Config config;
     std::vector<Data> table;
     std::vector<std::chrono::time_point<std::chrono::steady_clock>> time_points;
-
-    Daemon(const std::string &config_file) : 
-        config_file(config_file), table(), time_points() {}
 
     void replace_folder(const Data&);
     void create_pid_file();
     void daemonize();
+    void set_data(const std::vector<Data> &);
 
-    Daemon() = delete;
+    Daemon() = default;
     Daemon(const Daemon &) = delete;
     Daemon(Daemon &&) = delete;
     Daemon &operator=(const Daemon &) = delete;
