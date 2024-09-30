@@ -21,4 +21,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-sudo ./daemon config.txt
+cd ../ || { echo "Failed to exit build directory."; exit 1; }
+
+sudo ./build/daemon config.txt
