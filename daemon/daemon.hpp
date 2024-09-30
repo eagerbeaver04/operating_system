@@ -15,7 +15,7 @@ public:
         return instance;
     };
     void run(const std::filesystem::path &, const std::string &);
-    void reopen_config_file();
+    void open_config_file();
 
 private:
     std::filesystem::path current_path;
