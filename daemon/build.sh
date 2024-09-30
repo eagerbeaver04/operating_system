@@ -1,13 +1,16 @@
 #!/bin/sh
 
+initial_dir=$(dirname "$(readlink -f "$0")")
+
+
 if ! command -v cmake &> /dev/null; then
     echo "cmake is not installed. Please install cmake and try again."
     exit 1
 fi
 
-mkdir -p build
+mkdir -p "$initial_dir/build"
 
-cd build || { echo "Failed to change to the build directory."; exit 1; }
+cd "$initial_dir/build" || { echo "Failed to change to the build directory."; exit 1; }
 
 cmake ..
 if [ $? -ne 0 ]; then
@@ -21,6 +24,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-cd ../ || { echo "Failed to exit build directory."; exit 1; }
+cd "$initial_dir" || { echo "Failed to exit build directory."; exit 1; }
 
-sudo ./build/daemon config.txt
+sudo "$initial_dir/build/daemon" "$initial_dir/config.txt"
