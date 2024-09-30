@@ -5,8 +5,8 @@ void signal_handler(int sig)
     switch (sig)
     {
     case SIGHUP:
-        Daemon::get_instance().open_config_file();
         syslog(LOG_INFO, "Re-read config file");
+        Daemon::get_instance().open_config_file();
         break;
     case SIGTERM:
         syslog(LOG_INFO, "Exiting");
@@ -25,10 +25,14 @@ void Daemon::set_data(const std::vector<Data> &data)
 
 void Daemon::replace_folder(const Data & data)
 {
-    auto cur_path1 = current_path / data.folder1;
-    auto cur_path2 = current_path / data.folder2;
-    auto path1 = std::filesystem::absolute(cur_path1);
-    auto path2 = std::filesystem::absolute(cur_path2);
+    auto cur_path1 = std::filesystem::path(data.folder1);
+    auto cur_path2 = std::filesystem::path(data.folder2);
+
+    if (cur_path1.is_relative())
+        cur_path1 = current_path / data.folder1;
+    if (cur_path2.is_relative())
+        cur_path2 = current_path / data.folder2;
+
 
     if (!std::filesystem::exists(cur_path2))
         std::filesystem::create_directory(cur_path2);

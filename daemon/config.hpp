@@ -25,12 +25,17 @@ private:
     std::filesystem::path path;
 
 public:
-    Config(): path() {}
+    Config() = default;
     Config(const std::string &filename) 
     {
-        std::filesystem::path cur_path = std::filesystem::current_path();
-        cur_path = cur_path / filename;
-        path = std::filesystem::absolute(cur_path);
+        path = std::filesystem::path(filename);
+
+        if (path.is_relative())
+        {
+            std::filesystem::path cur_path = std::filesystem::current_path();
+            cur_path = cur_path / filename;
+            path = std::filesystem::absolute(cur_path);
+        }
         if (!std::filesystem::exists(path))
         {
             syslog(LOG_ERR, "Config file %s does not exist! ", path.c_str());
