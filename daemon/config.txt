@@ -1,3 +1,0 @@
-folder1 folder4 5
-folder4 folder2 10
-folder2 folder1 14
