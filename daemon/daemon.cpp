@@ -126,8 +126,11 @@ void Daemon::run(const std::filesystem::path & current_dir, const std::string & 
 
     open_config_file();
 
-    signal(SIGHUP, signal_handler);
-    signal(SIGTERM, signal_handler);
+    std::jthread signal_thread([]()
+                               {
+        signal(SIGHUP, signal_handler);
+        signal(SIGTERM, signal_handler); 
+        });
 
     while (true)
     {

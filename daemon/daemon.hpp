@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <chrono>
 #include <functional>
+#include <thread>
 #include "config.hpp"
 
 class Daemon
