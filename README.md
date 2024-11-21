@@ -83,9 +83,9 @@ The application supports an **unlimited number of clients** (theoretically) due 
    cd operating_system
    ```
 3. The project uses **CMake** for building, ensuring a flexible and cross-platform setup. A `build.sh` script is included to simplify the build process. To build the project, execute the following command in the root directory:
-```bash
-./build.sh
-```
+    ```bash
+    ./build.sh
+    ```
 
 ### Usage
 
